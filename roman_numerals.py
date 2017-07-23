@@ -2,7 +2,6 @@ import sys
 import webbrowser
 
 #This program is designed to convert integers from 1 to 4999 inclusive into
-#is so that other programs may use this one. The other mode is if we did not pass
 #standard roman numerals as well as convert roman numerals into the respective number.
 #There are two modes, either giving the input as a command line
 #argument in which only the roman numeral/number is printed to stdout.
@@ -94,6 +93,16 @@ def check_quads(roman):
         if n in roman:
             raise Exception('Invalid roman numeral entered')
 
+def check_valid_last(roman, last_char, char):
+    valid_transitions = ['II','XX','CC','MM', 'IV', 'VI', 'LX', 'LV', 'XL', 'XV', 'IX', 'XI', 'LI', 'XC',
+                         'CX','DC','CD', 'CL', 'CV','CI', 'DI',
+                         'MI', 'MV','MX','ML', 'MC', 'MD',
+                         'CM', 'DV','DX','DL']
+    if last_char is '':
+        return 
+    if (last_char + char) not in valid_transitions:
+        raise Exception('Invalid roman numeral entered: ', roman)
+
 def get_num(roman):
     roman = roman.upper()
     val_map = {'':0, 'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
@@ -101,8 +110,9 @@ def get_num(roman):
     last_char = ''
     check_quads(roman)
     for char in roman:
+        check_valid_last(roman, last_char, char)
         if char not in val_map:
-            raise Exception('Invalid roman numeral entered')
+            raise Exception('Invalid roman numeral entered: ', roman)
         if val_map.get(last_char) < val_map.get(char):
             value += val_map.get(char) - (val_map.get(last_char) + val_map.get(last_char))
         else:
@@ -114,7 +124,9 @@ def print_all():
     with open('roman.txt', 'wb') as output:
         for i in range(5000):
             roman = get_roman(i)
-            line = (str(get_num(roman)) + ', ' + roman + '\n').encode()
+            num = str(get_num(roman))
+            print(num, ' ', roman)
+            line = (num + ', ' + roman + '\n').encode()
             output.write(line)
         webbrowser.open('roman.txt')
 
