@@ -2,10 +2,12 @@ import sys
 import webbrowser
 
 #This program is designed to convert integers from 1 to 4999 inclusive into
-#standard roman numerals. There are two modes, either giving the number as a command line
-#argument in which only the roman numeral is printed to stdout. This mode
 #is so that other programs may use this one. The other mode is if we did not pass
-#a command line arg where we can test as many numbers manually as we want.
+#standard roman numerals as well as convert roman numerals into the respective number.
+#There are two modes, either giving the input as a command line
+#argument in which only the roman numeral/number is printed to stdout.
+#The other mode is if we did not pass a command line arg where we can test as many values manually as we want.
+#Roman -> number is case insensitive
 
 def less_than_ten(number):
     if number >= 10:
